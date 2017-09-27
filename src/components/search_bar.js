@@ -37,13 +37,21 @@ class SearchBar extends Component{
       return (
         <div>  
          <input 
+            className="search-bar"
             // 7.1 added value and remove  "onChange={ event => this.setState({term: event.target.value })} "
             value = {this.state.term}
-            onChange={ event => this.setState({term: event.target.value })} />
+            onChange={ event => this.onInputChange(event.target.value)} />
          {/* 6.3 */}
          Value of the input: {this.state.term}
         </div>
         );
+    }
+
+
+    //16.2 
+    onInputChange(term){
+        this.setState({term});
+        this.props.onSearchTermChange(term);
     }
     
      // 1. every class based components must define reder method

@@ -35,26 +35,32 @@ class App extends Component {
       selectedVideo:null
     };
 
+    this.VideoSearch('Hello');
 
-    
-    //8.2 -> 9.3 (move 8.2 outside the function object into class based component)
-    YTSearch({key:API_KEY, term : '謝安琪' }, (videos) => {
-      // if key and value are identical term "videos and (videos) =>" ES6 can make it o videos
-      //this.setState({videos}) <-- becoz of 17.1 change to original form
-      this.setState({
-        videos:videos,
-        selectedVideo : videos[0]
-      });
-      // same as this.setState({videos:videos})
-    });
-    
   }
+    // create Video Search method
+    VideoSearch(term) {
+      //16.1 move YT search into VideoSearch
+      //8.2 -> 9.3 (move 8.2 outside the function object into class based component)
+      YTSearch({key:API_KEY, term : term }, (videos) => {
+        // if key and value are identical term "videos and (videos) =>" ES6 can make it o videos
+        //this.setState({videos}) <-- becoz of 17.1 change to original form
+        this.setState({
+          videos:videos,
+          selectedVideo : videos[0]
+        });
+        // same as this.setState({videos:videos})
+      });
+     
+    }
+
+  
   render(){
     //10.4 class based component can use props everywhere.
     //this.props.xxx
     return (
     <div>
-      <SearchBar />
+      <SearchBar onSearchTermChange={term => this.VideoSearch(term)} />
       <VideoDetail video={this.state.selectedVideo} />
       <VideoList        
         onVideoSelect={selectedVideo => this.setState({selectedVideo})} 
