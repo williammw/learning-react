@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 // actuallt render the DOM 
+import _ from 'lodash';
 import ReactDom from 'react-dom';
 // 8.1 import youtube search apu
 import YTSearch from 'youtube-api-search';
@@ -56,11 +57,13 @@ class App extends Component {
 
   
   render(){
+    // 32.1 videoSearch =
+    const VideoSearch = _.debounce((term) => this.VideoSearch(term), 300 );
     //10.4 class based component can use props everywhere.
     //this.props.xxx
     return (
     <div>
-      <SearchBar onSearchTermChange={term => this.VideoSearch(term)} />
+      <SearchBar onSearchTermChange={term => VideoSearch(term)} />
       <VideoDetail video={this.state.selectedVideo} />
       <VideoList        
         onVideoSelect={selectedVideo => this.setState({selectedVideo})} 
