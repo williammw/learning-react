@@ -12,7 +12,12 @@ const VideoList = (props) => {
         // version 1
         //return <VideoListItem video={video} />
         // adding key [=> key={video.etag} <=]
-        return <VideoListItem key={video.etag} video={video} />
+        return (
+                 <VideoListItem  
+                    onVideoSelect = {props.onVideoSelect}
+                    key={video.etag} 
+                    video={video} />
+                );
         // 12.3 the warrning (Each child in an array or iterator should have a unique "key" prop.)
     });
     return (

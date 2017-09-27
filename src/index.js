@@ -4,6 +4,7 @@ import ReactDom from 'react-dom';
 // 8.1 import youtube search apu
 import YTSearch from 'youtube-api-search';
 import SearchBar from './components/search_bar';
+import VideoDetail from './components/video_detail';
 // 10.2 import video list
 import VideoList from './components/video_list';
 // ReactDom
@@ -27,16 +28,26 @@ class App extends Component {
   // @when we create a component, we create a class of compoenet
   constructor(props){
     super(props);
-    this.state = {videos:[]};
+    this.state = {
+      videos:[],
+      //17.1 Vid29!important
+      // add the concept of selecting video and i want to pass to the selected video details
+      selectedVideo:null
+    };
+
 
     
     //8.2 -> 9.3 (move 8.2 outside the function object into class based component)
-    YTSearch({key:API_KEY, term : 'Jason' }, (videos) => {
+    YTSearch({key:API_KEY, term : '謝安琪' }, (videos) => {
       // if key and value are identical term "videos and (videos) =>" ES6 can make it o videos
-      this.setState({videos})
+      //this.setState({videos}) <-- becoz of 17.1 change to original form
+      this.setState({
+        videos:videos,
+        selectedVideo : videos[0]
+      });
       // same as this.setState({videos:videos})
     });
-
+    
   }
   render(){
     //10.4 class based component can use props everywhere.
@@ -44,8 +55,13 @@ class App extends Component {
     return (
     <div>
       <SearchBar />
-      <VideoList videos={this.state.videos} />
-    </div>);
+      <VideoDetail video={this.state.selectedVideo} />
+      <VideoList        
+        onVideoSelect={selectedVideo => this.setState({selectedVideo})} 
+        videos={this.state.videos} 
+        />
+    </div>
+    );
   }
 }
 //take this compoennt generated HTML and put it on the page
